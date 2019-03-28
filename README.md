@@ -1,0 +1,2 @@
+# CONNECTANOU
+CONNECTANOU est un projet (association) basé sur une plateforme web pour mettre en relation les responsables de petites Entreprises, startup avec des étudiants (informatique ou autres) pour aider à digitaliser/ développer les entreprises à l'ile de la Reunion 974. Les entrepreneurs ou porteurs de projet déposent des projets et les étudiants les réalisent selon un cahier des charges à cout réduit ou gratuitement. Cette mise en situation réelle permet donc à l'étudiant d'acquérir de l'expérience grâce à des projets concrets..
