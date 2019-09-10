@@ -31,7 +31,7 @@
             $req = $DB->query("SELECT * 
                 FROM realisateur
                 WHERE Email_real = ? AND Mdp_real = ?",
-                array($Email_real, password_hash($Mdp_real ("rasmuslerdorf"))));
+                array($Email_real, password_hash($Mdp_real ("rasmuslerdorf", PASSWORD_DEFAULT))));
                 
                 
             $req = $req->fetch();
