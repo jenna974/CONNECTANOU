@@ -64,12 +64,6 @@
                 $er_tel = ("Le numéro de téléphone ne peut pas être vide");
             }  
 
-/*             if(empty($id_statut_real)){
-                $valid = false;
-                $er_statut = ("Veuillez renseigner votre statut s'il vous plâit");
-            }   */
-
-
             // Vérification du mot de passe
             if(empty($Mdp_real)) {
                 $valid = false;
