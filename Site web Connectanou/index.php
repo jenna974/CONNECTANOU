@@ -19,7 +19,7 @@
   <body>
     <h1>Connectanou</h1>
     <?php
-      if(!isset($_SESSION['id'])){ // Si on ne détecte pas de session alors on verra les liens ci-dessous
+      if(!isset($_SESSION['IdReal'])){ // Si on nedétecte pas de session alors on verra les liens ci-dessousd
       ?>
         <a href="inscription.php">Inscription</a> <!-- Liens de nos futures pages -->
         <a href="connexion.php">Connexion</a>
