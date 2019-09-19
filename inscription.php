@@ -19,10 +19,13 @@
             $prenom_real = htmlentities(trim($prenom_real)); // on récupère le prénom
             $email_real = htmlentities(strtolower(trim($email_real))); // On récupère le mail
             $tel_real = trim($tel_real);
-            $linkedin_URL = trim($linkedin_URL);
+            
             $mdp_real = trim($mdp_real); // On récupère le mot de passe 
             $confmdp_real = trim($confmdp_real); //  On récupère la confirmation du mot de passe
             $datenais_real = trim($datenais_real);
+            $id_statut_real = trim($id_statut_real);
+
+            
             
  
             //  Vérification du nom
@@ -70,8 +73,11 @@
             $valid = false;
             $er_date = ("Veuillez renseignez votre date de naissance");
            }  
-
-
+           
+           if(empty($id_statut_real)){
+            $valid = false;
+            $er_statut_real = ("Veuillez renseignez votre statut");
+           }  
 
             // Vérification du mot de passe
             if(empty($mdp_real)) {
@@ -91,9 +97,9 @@
             
 
                 // On insert nos données dans la table utilisateur
-                $DB->insert("INSERT INTO realisateur (nom_real, prenom_real, email_real, mdp_real, tel_real, datenais_real, linkedin_URL, date_creation_compte) VALUES 
+                $DB->insert("INSERT INTO realisateur (nom_real, prenom_real, email_real, mdp_real, tel_real, datenais_real, id_statut_real, date_creation_compte) VALUES 
                     (?, ?, ?, ?, ?, ?, ?, ?)", 
-                    array($nom_real, $prenom_real, $email_real, $mdp_real, $tel_real, $datenais_real, $linkedin_URL, $date_creation_compte));
+                    array($nom_real, $prenom_real, $email_real, $mdp_real, $tel_real, $datenais_real, $id_statut_real, $date_creation_compte));
 
                 header('Location: index.php');
                 exit;
@@ -107,19 +113,50 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <script src="bootstrap/js/jquery.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="inscription.css">
-        <title>Inscription</title>
-    </head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="Accueilcss.css">
+  <link rel="stylesheet" href="inscription.css">
+</head>
+    
     <body> 
     <div align="center">     
         <h1>Inscription du réalisateur</h1>
         <form method="post">
+
+        <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#"> <img src="logo_connectanou.png" width="150" height="70"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="Accueil.html">Accueil</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="lequipe.html">L'équipe</a></li>
+        <li><a href="landingrea.html">Réalisateur</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      	 <form class="navbar-form navbar-left" action="/action_page.php">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Recherches">
+      </div>
+      <button type="submit" class="btn btn-default"><img src="iconeloupe.svg" witdh="30" height="20"></button>
+    </form>
+      	<li><a href="inscription.php"><span class="glyphicon glyphicon-user"></span> S'incrire</a></li>
+      <li><a href="connexion.php"><span class="glyphicon glyphicon-log-in"></span>Se connecter</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
             <?php
                 // S'il y a une erreur sur le nom alors on affiche
@@ -152,6 +189,13 @@
             </td>
             </tr>
 
+            <?php
+                if (isset($er_statut_real)){
+                ?>
+                    <div><?= $er_statut_real ?></div>
+            <?php   
+                }
+            ?>
             <tr>
             <td>
             <div align= center >
@@ -162,15 +206,15 @@
            width : 270px ;
                }
            </style>
-         <form size ="37" name="statut" method="post" >
-            <select  id="statut" name="statut_real" value="<?php if(isset($statut_real)){ echo $statut_real; }?>" required >
+         <form size ="37" name="id_statut_real" method="post" >
+            <select  id="statut" name="id_statut_real" value="<?php if(isset($id_statut_real)){ echo $id_statut_real; }?>" required>
             <option value=""> Choississez votre statut </option>
-             <option value="">Etudiant</option>
-            <option value="">Formateur</option>
-             <option value="">Demandeur d'emploi</option>
-            <option value="">Entrepreneur</option>
-            <option value="">Salarié</option>
-           <option value="">Autre</option>
+             <option value="1">Etudiant</option>
+            <option value="2">Formateur</option>
+             <option value="3">Demandeur d'emploi</option>
+            <option value="4">Salarié</option>
+            <option value="5">Entrepreneur</option>
+           <option value="6">Autre</option>
         </select>
         </form>
         </div>
@@ -259,7 +303,7 @@
              
             <tr>
             <td>
-            <input size ="37" type="text" placeholder="Formation en cours" name="" value="" required>   
+            <input size ="37" type="text" placeholder="Formation en cours" name=""  required>   
             </td>
             </tr>
 
@@ -269,40 +313,54 @@
             </td>
             </tr>
 
-           
             <tr>
             <td>
             <p>Votre diplome</p>
-            <input size ="37" type="text" placeholder="Dernier diplome obtenue" name="" value="" required>   
+            <input size ="37" type="text" placeholder="Dernier diplome obtenue" required>   
             </td>
             </tr>
              
+
+            
+            <?php
+                if (isset($er_niv_dip)){
+                ?>
+                    <div><?= $er_niv_dip ?></div>
+            <?php   
+                }
+            ?> 
             <tr>
             <td>
-            <form size ="37" name="niv_diplome" method="post" >
-            <select  id="niv_diplome" name="niv_diplome" value="" required >
+            <form size ="37" name="niveau_diplome" method="post" >
+            <select  id="niv_diplome" name="niveau_diplome" >
             <option value=""> Votre niveau diplome actuel </option>
-             <option value="">BAC</option>
-            <option value="">BAC+1</option>
-             <option value="">BAC+2</option>
-            <option value="">BAC+3</option>
-            <option value="">BAC+4</option>
-           <option value="">BAC+5</option>
-           <option value="">BAC+6</option>
-            <option value="">BAC+7</option>
-            <option value="">BAC+8</option>
-           <option value="">Autre</option>
+             <option value="1">BAC</option>
+            <option value="2">BAC+1</option>
+             <option value="3">BAC+2</option>
+            <option value="4">BAC+3</option>
+            <option value="5">BAC+4</option>
+           <option value="6">BAC+5</option>
+           <option value="7">BAC+6</option>
+            <option value="8">BAC+7</option>
+            <option value="9">BAC+8</option>
+           <option value="10">Autre</option>
         </select>
         </form>  
             </td>
             </tr>
-
-
-
             <tr><td align="center"><button type="submit" name="inscription">S'inscrire</button></td></tr>
-
+        
             </table>
         </form>
     </div>
+
+    <footer class="container-fluid text-center" >
+  <img src="029-instagram.png" width="35px" height="35px">
+  <a href="https://www.linkedin.com/company/connectanou/"><img src="027-linkedin.png" width="35px" height="35px"></a>
+  <a href="https://www.facebook.com/connectanou/""><img src="036-facebook.png" width="35px" height="35px"></a>
+  <img src="008-twitter.png" width="35px" height="35px">
+  <a href="PageContact.html">Contact</a>
+  <a href="mentionlegale.html">Mentions légales</a>
+</footer>
     </body>
 </html>
