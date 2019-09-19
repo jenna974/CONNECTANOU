@@ -4,7 +4,7 @@ img.avatar {
     max-height:180px;
     width:auto;
     height:auto;
-    border: 1;
+
     margin: auto;
     display: block;
     margin-left: auto;
@@ -14,14 +14,7 @@ img.avatar {
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
-      min-height: 80px
-    }
-    .navbar-brand{
-      padding: 0 15px;
-      height: 80px;
-      line-height: 80px;
 
-    }
     .row.content {height: 450px}
     
     .sidenav {
