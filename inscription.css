@@ -1,0 +1,10 @@
+p{
+    text-decoration: underline;
+    font-style: italic;
+    font-weight: bold;
+    
+    top: 80px;
+    right: 0;
+    width: 200px;
+    height: 10px;
+}
