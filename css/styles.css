@@ -1,0 +1,284 @@
+html,
+body {
+
+    height: 100%;
+}
+
+
+/*_______MODIFICATION COULEUR BACKGROUND_______ */
+
+.bg-primary {
+
+    background-color: #F0EFF3 !important;
+}
+
+.bg-secondary {
+
+    background-color: #03326C !important;
+}
+
+.bg-success {
+
+    background-color: #95C11F !important;
+}
+
+.bg-info {
+
+    background-color: #009FE3 !important;
+}
+
+.bg-warning {
+
+    background-color: #EA5166 !important;
+}
+
+.bg-danger {
+
+    background-color: #E1251B !important;
+}
+
+/*_______MODIFICATION COULEUR BOUTON_______ */
+
+.btn-primary {
+    color: #EA5166;
+    background-color: #F0EFF3;
+    border-color: #F0EFF3;
+}
+
+/*
+.btn-primary:hover {
+  color: #EA5166;
+  background-color: #0069d9;
+  border-color: #0069d9;
+}
+*/
+
+.btn-secondary {
+    color: #F0EFF3;
+    background-color: #03326C;
+    /*border-color: #F0EFF3;*/
+}
+
+/*
+.btn-secondary:hover {
+  color: #EA5166;
+  background-color: #0069d9;
+  border-color: #0069d9;
+}
+*/
+
+.btn-success {
+    color: #F0EFF3;
+    background-color: #95C11F;
+    /*border-color: #F0EFF3;*/
+}
+
+/*
+.btn-success:hover {
+  color: #EA5166;
+  background-color: #0069d9;
+  border-color: #0069d9;
+}
+*/
+.btn-info {
+    color: #F0EFF3;
+    background-color: #009FE3;
+    /*border-color: #F0EFF3;*/
+}
+
+/*
+.btn-info:hover {
+  color: #EA5166;
+  background-color: #0069d9;
+  border-color: #0069d9;
+}
+*/
+.btn-warning {
+    color: #F0EFF3;
+    background-color: #EA5166;
+    /*border-color: #F0EFF3;*/
+}
+
+/*
+.btn-warning:hover {
+  color: #EA5166;
+  background-color: #0069d9;
+  border-color: #0069d9;
+}
+*/
+
+
+/*_______MODIFICATION TEXTE_______*/
+
+.text-primary {
+    color: #F0EFF3 !important;
+}
+
+.text-secondary {
+    color: #03326C !important;
+}
+
+.text-warning {
+    color: #EA5166 !important;
+}
+
+.text-danger {
+    color: #E1251B !important;
+}
+
+.border {
+
+    border-width: 4px !important;
+}
+
+.border-bottom {
+
+    border-width: 4px !important;
+}
+
+.border-secondary {
+
+    border-color: #03326C !important;
+}
+
+/* _____TYPO____*/
+
+@font-face {
+
+    font-family: "bitter";
+    /*src: url('../fonts/Bitter/Bitter-Bold.ttf');*/
+    src: url('../fonts/Bitter/Bitter-Bold.ttf') format('truetype');
+}
+
+.typo-1 {
+
+    font-family: "bitter";
+   
+}
+
+.typo-1 {}
+
+/*_______PAGE ACCUEIL_______"pa"*/
+
+
+#pa-pnl-un {
+
+    height: 66.66%;
+
+}
+
+#pa-pnl-un h1 {
+
+    /*display:block;*/
+    /*position: relative;*/
+
+    top: 50%;
+    height: 50%;
+
+}
+
+#pa-pnl-deux {
+
+    height: 33.33%
+}
+
+#pa-pnl-deux form {
+
+    top: 25%;
+    height: 50%;
+}
+
+
+/*_______PAGE CONTRE INDICATION_______"pb"*/
+
+#pb h1 {
+
+    /*padding-bottom: 5px;*/
+}
+
+/*_______PAGE CHOIX DONNEUR_______"pc"*/
+
+#pc {
+
+    /*
+    background-image: url("../images/fond_pageAttente_1024x768_01.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    */
+
+    background-color: #009FE3;
+}
+
+
+#pc #backgroundElt {
+
+    height: 100%;
+    /*width:auto;*/
+
+    /*min-width:*/
+}
+
+
+#pc #compteur {
+
+    top: 47%;
+
+}
+
+#pc #txtUniteeTps {
+
+    top: 75%;
+
+}
+
+/*_______PAGE DONNEUR OU PAS_______"pd"*/
+
+#pd {
+
+    /*background-image: url("../images/fond_pageAttente_1024x768_01.png");*/
+}
+
+#pd img {
+
+    width: 33.33%;
+    height: auto;
+
+    right: 25%;
+    bottom: 10%;
+}
+
+#pd #pnl_un {
+
+    height: 66.6%;
+}
+
+#pd form {
+
+    top: calc(66.6% - 5%);
+    height: 10%;
+}
+
+#pnl_un h1 {
+
+    margin: auto;
+    vertical-align: middle;
+}
+
+/*_______PAGE FORMULAIRE_______"pe"*/
+
+#pe #pnl_imgCrayon{
+    
+    background-image: url("../images/image_crayon_512X1024_01.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/*_______PAGE LISTE COLLECTE_______"pf"*/
+
+#pf #entete{
+    
+    position: absolute; /* Placement de l'entête du tableau en position absolute pour que le fond(bandeau bleu) prend une largeur de 100% mais que l'entête du tableau garde la meme largeur que le corps du tableau */
+    /*top: -25%;*/
+
+}
