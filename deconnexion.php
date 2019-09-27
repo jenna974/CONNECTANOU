@@ -1,6 +1,14 @@
 <?php
-  session_start();
-  session_destroy();
-  header('location: index.php'); // Ici il faut mettre la page sur lequel l'utilisateur sera redirigé.
-  exit;
+// Initialize the session
+session_start();
+ 
+// Unset all of the session variables
+$_SESSION = array();
+ 
+// Destroy the session.
+session_destroy();
+ 
+// Redirect to login page
+header("location: Accueil.php");
+exit;
 ?>

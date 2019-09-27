@@ -1,66 +1,98 @@
 <?php
-    session_start();
-    include('dbconfig.php'); // Fichier PHP contenant la connexion à votre BDD
+// Initialize the session
+session_start();
+ 
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: connexion.php");
+    exit;
+}
+ 
+// Include config file
+require_once "dbconfig.php";
 
-  // S'il y a une session alors on ne retourne plus sur cette page  
-    if (isset($_SESSION['id_real'])){
-        header('Location: index.php');
-        exit;
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'connectanou');
+ 
+/* Attempt to connect to MySQL database */
+$link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+// Define variables and initialize with empty values
+$email = $mdp = "";
+$email_err = $mdp_err = "";
+ 
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+    // Check if username is empty
+    if(empty(trim($_POST["email"]))){
+        $email_err = "Veuillez renseigner votre email.";
+    } else{
+        $email = trim($_POST["email"]);
     }
-
-    // Si la variable "$_Post" contient des informations alors on les traitres
-    if(!empty($_POST)){
-        extract($_POST);
-        $valid = true;
-
-        if (isset($_POST['connexion'])){
-            $email_real = $_POST['email_real'];
-            $mdp_real = $_POST['mdp_real'];
-
-            if(empty($email_real)){ // Vérification qu'il y est bien un mail de renseigné
-                $valid = false;
-                $er_mail = "Il faut mettre un mail";
-            }
-
-            if(empty($mdp_real)){ // Vérification qu'il y est bien un mot de passe de renseigné
-                $valid = false;
-                $er_mdp = "Il faut mettre un mot de passe";
-            }
+    
+    // Check if password is empty
+    if(empty(trim($_POST["mdp"]))){
+        $mdp_err = "Veuillez renseigner votre mot de passe.";
+    } else{
+        $mdp = trim($_POST["mdp"]);
+    }
+    
+    // Validate credentials
+    if(empty($email_err) && empty($mdp_err)){
+        // Prepare a select statement
+        $sql = "SELECT id_real, email_real, mdp_real FROM realisateur WHERE email_real = ?";
+        
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_email);
             
-            // On fait une requête pour savoir si le couple mail / mot de passe existe bien car le mail est unique !
+            // Set parameters
+            $param_email = $email;
             
-            $req = $DB->query("SELECT * FROM realisateur WHERE email_real = ? AND mdp_real = ?",
-                array($email_real, $mdp_real));
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                // Store result
+                mysqli_stmt_store_result($stmt);
                 
-             $req = $req->fetch();  
-
-                if (password_verify($_POST['mdp_real'], $req['mdp_real'])) {
-                echo "bienvenue";
+                // Check if username exists, if yes then verify password
+                if(mysqli_stmt_num_rows($stmt) == 1){                    
+                    // Bind result variables
+                    mysqli_stmt_bind_result($stmt, $id, $email, $hashed_password);
+                    if(mysqli_stmt_fetch($stmt)){
+                        if(password_verify($mdp, $hashed_password)){
+                            // Password is correct, so start a new session
+                            session_start();
+                            
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id_real"] = $id;
+                            $_SESSION["prenom_real"] = $email;                            
+                            
+                            // Redirect user to welcome page
+                            header("location: Accueil.php");
+                        } else{
+                            // Display an error message if password is not valid
+                            $mdp_err = "Le mot de passe que vous avez entré n'est pas valide.";
+                        }
+                    }
+                } else{
+                    // Display an error message if username doesn't exist
+                    $email_err = "Aucun compte trouvé avec cet adresse mail.";
                 }
-            
-
-            // Si on a pas de résultat alors c'est qu'il n'y a pas d'utilisateur correspondant au couple mail / mot de passe
-            if ($req['id_real'] == ""){
-                $valid = false;
-                $er_mail = "Le mail ou le mot de passe est incorrecte";
-                
-            }elseif($req['n_mdp'] == 1){ // On remet à zéro la demande de nouveau mot de passe s'il y a bien un couple mail / mot de passe
-                $DB->insert("UPDATE utilisateur SET n_mdp = 0 WHERE id = ?", 
-                    array($req['id']));
+            } else{
+                echo "Oops!.";
             }
-
-            // S'il y a un résultat alors on va charger la SESSION de l'utilisateur en utilisateur les variables $_SESSION
-            if ($valid){
-                $_SESSION['id_real'] = $req['id_real']; // id de l'utilisateur unique pour les requêtes futures
-                $_SESSION['nom_real'] = $req['nom_real'];
-                $_SESSION['prenom_real'] = $req['prenom_real'];
-                $_SESSION['email_real'] = $req['email_real'];
-
-                header('Location:  index.php');
-                exit;
-            }   
         }
+        
+        // Close statement
+        mysqli_stmt_close($stmt);
     }
+    
+    // Close connection
+    mysqli_close($link);
+}
 ?>
 
 
@@ -79,6 +111,7 @@
     </head>
     <body> 
     <div align="center">
+
     <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -87,21 +120,22 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#"><img src="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/69245688_401188947269284_5766408162303279104_n.png?_nc_cat=101&_nc_oc=AQl7DOHb15dlmvNAvaLyACCPvENgm14C_53LsxrgtsimMLCpPi5rFh7jWLLj_CBZnGI&_nc_ht=scontent-cdg2-1.xx&oh=67393af4accd26d24f43f5d33399b3a7&oe=5E15AB3B" width="40px" height="30px" margin-bottom="15px"</a>
+      <a class="navbar-brand" href="#"> <img src="logo_connectanou.png" width="150" height="70"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Accueil</a></li>
+        <li><a href="Accueil.php">Accueil</a></li>
         <li><a href="#">Blog</a></li>
-        <li><a href="#">Project</a></li>
-        <li><a href="#">L'équipe</a></li>
+        <li><a href="lequipe.html">L'équipe</a></li>
+    <li><a href="landingrea.html">Réalisateur</a></li>
+        <li><a href="landingporter.html">Porteur de projet</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	 <form class="navbar-form navbar-left" action="/action_page.php">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
+        <input type="text" class="form-control" placeholder="Recherches">
       </div>
-      <button type="submit" class="btn btn-default">Chercher</button>
+      <button type="submit" class="btn btn-default"><img src="iconeloupe.svg" witdh="30" height="20"></button>
     </form>
       	<li><a href="inscription.php"><span class="glyphicon glyphicon-user"></span> S'incrire</a></li>
       <li><a href="connexion.php"><span class="glyphicon glyphicon-log-in"></span>Se connecter</a></li>
@@ -109,53 +143,36 @@
     </div>
   </div>
 </nav>
-
         <h1>Se connecter</h1>
-        <form method="post">
-            <?php
-                if (isset($er_mail)){
-            ?>
-                <div><?= $er_mail ?></div>
-            <?php   
-                }
-            ?>
-
-            <table>
-            
-            <tr>
-            <td align="center">
-            <input type="email" placeholder="Adresse mail ou login" name="email_real" value="<?php if(isset($email_real)){ echo $email_real; }?>" required>
-            </td>
-            </tr>
-
-            <?php
-                if (isset($er_mdp)){
-            ?>
-                <div><?= $er_mdp ?></div>
-            <?php   
-                }
-            ?>
-            <tr>
-            <td>
-            <input type="password" placeholder="Mot de passe" name="mdp_real" value="<?php if(isset($mdp_real)){ echo $mdp_real; }?>" required></td></tr>
-
-            <tr>
-            <td align="center"><button type="submit" name="connexion">Se connecter</button></td>
-            </tr>
-            
-            </table>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                <input type="email" name="email" placeholder="Votre adresse email*" value="<?php echo $email; ?>">
+                <span class="help-block"><?php echo $email_err; ?></span>
+            </div>    
+            <div class="form-group <?php echo (!empty($mdp_err)) ? 'has-error' : ''; ?>">
+                <input type="password" placeholder="Votre mot de passe*" name="mdp">
+                <span class="help-block"><?php echo $mdp_err; ?></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Se connecter"> <br/>  <br/> 
+                <p>Vous avez pas de compte ? <a href="inscription.php">Inscrivez-vous maintenant</a>.</p>
+                <a href="mdp_oublié.php">Mot de passe oublié ?</a>.</p>
+            </div>
         </form>
         </div>
-        <footer class="container-fluid text-center" >
+
+        
+
+    <footer class="footer navbar-fixed-bottom" >
+    <div class="container text-center">
   <img src="029-instagram.png" width="35px" height="35px">
   <a href="https://www.linkedin.com/company/connectanou/"><img src="027-linkedin.png" width="35px" height="35px"></a>
-  <a href="https://www.facebook.com/connectanou/""><img src="036-facebook.png" width="35px" height="35px"></a>
+  <a href="https://www.facebook.com/connectanou/"><img src="036-facebook.png" width="35px" height="35px"></a>
   <img src="008-twitter.png" width="35px" height="35px">
   <a href="PageContact.html">Contact</a>
   <a href="mentionlegale.html">Mentions légales</a>
+            </div>
 </footer>
-
-
 
     </body>
 </html>
