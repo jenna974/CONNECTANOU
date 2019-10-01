@@ -9,7 +9,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto ">
             <li class="nav-item active">
-                <a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Accueil</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"></a>
@@ -20,12 +20,15 @@
             <li class="nav-item">
               <a class="nav-link" href="landingPor.php">Porteur de projet</a>
             </li>
+                <li class="nav-item">
+            <a class="nav-link" href="qui.php">L'association</a>
+            </li> 
+            <li class="nav-item">
+            <a class="nav-link" href="equipe.php">Notre équipe</a>
+            </li>
             <li class="nav-item">
             <a class="nav-link" href="contact.php">Contact</a>
-            </li> 
-                <li class="nav-item">
-            <a class="nav-link" href="qui.php">Qui sommes-nous ?</a>
-            </li>           
+            </li>            
         </ul>
         <!-- <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

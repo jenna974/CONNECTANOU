@@ -4,7 +4,7 @@
 		<div class="container text-justify" ><br><br>
 
 	 	<h1 style="text-align: center;">Vous êtes un porteur de projet ?</h1><br><br>
-	    <img src="img/slide3.png"  style="align-items: center;" class="col-md-12 col-lg-12 col-sm-12 col-xs-12"><br><br>
+	    <img src="img/landing_por.png"  style="align-items: center;" class="col-md-10 col-lg-10 col-sm-10 col-xs-10"><br><br>
 	    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 			<FONT size="4pt"> 
 				<p>Vous avez un projet ? Vous avez une super idée ? 
@@ -33,5 +33,5 @@
 	</section>
 
 
-	<?php include 'footer.php'; ?>
+	<!-- <?php include 'footer.php'; ?> -->
 

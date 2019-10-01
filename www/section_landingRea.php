@@ -2,8 +2,10 @@
 
 <section class="py-5  mt-5 " >
   <div class="container text-justify" ><br><br>
-    <h1 style="text-align: center;">Vous êtes un réalisateur ?</h1><br><br>
-    <img src="img/slide2.png" class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="align-items: center;" class="col-md-8"><br><br>
+    <h1 style="text-align: center;">Vous êtes étudiant ou jeune diplomé ?</h1><br><br>
+    <div class="container-fluid ml-5">
+      <img src="img/landing_rea.png" class="col-md-10 col-lg-10 col-sm-10 col-xs-10" style="width: 90%" class="center-block" alt="realisateur de projets"><br><br>
+    </div>
     <div class="row">
       <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 

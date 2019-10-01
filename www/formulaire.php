@@ -1,8 +1,17 @@
 <div class="container">
 	  
 	<div class="row mt-5">
-		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 text-justify" style="text-justify"><br><br>
-			<h2 class="container text-justify">Vous avez des question? Hésitez pas à nous contacter</h2><br><br>
+		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" ><br><br>
+			<h2 class="container">Vous avez des questions ? N'hésitez pas à nous contacter</h2><br><br>
+			<div class="container">              
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<FONT size="5pt">
+				        Connectanou974[a]gmail.com
+				    </FONT>
+			    </div>
+			</div>
+		</div><br><br>
 		<a id="foxyform_embed_link_192397" href="http://fr.foxyform.com/">foxyform</a>
 		<script type="text/javascript">
 			(function(d, t){
@@ -12,15 +21,7 @@
 			   s.parentNode.insertBefore(g, s);
 			}(document, "script"));
 		</script>
-		<div class="container">              
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<FONT size="5pt">
-				        Connectanou974[a]gmail.com
-				    </FONT>
-			    </div>
-			</div>
-		</div>
+		
 		</div>
 		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" >
 			<iframe id="haWidget" allowtransparency="true" scrolling="auto" src="https://www.helloasso.com/associations/connectanou/formulaires/1/widget" style="width:100%;height:750px;border:none;" onload="window.scroll(0, this.offsetTop)"></iframe>
