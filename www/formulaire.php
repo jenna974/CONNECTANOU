@@ -7,11 +7,15 @@
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<FONT size="5pt">
-				        Connectanou974[a]gmail.com
+				        Par email : Connectanou974[a]gmail.com
 				    </FONT>
 			    </div>
 			</div>
 		</div><br><br>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<FONT size="5pt">Ou depuis notre formulaire de contact</FONT>
+		</div>
+		<!-- formulaire de contact foxyform -->
 		<a id="foxyform_embed_link_192397" href="http://fr.foxyform.com/">foxyform</a>
 		<script type="text/javascript">
 			(function(d, t){
@@ -23,6 +27,7 @@
 		</script>
 		
 		</div>
+		<!-- formulaire de don de HELLOASSO -->
 		<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" >
 			<iframe id="haWidget" allowtransparency="true" scrolling="auto" src="https://www.helloasso.com/associations/connectanou/formulaires/1/widget" style="width:100%;height:750px;border:none;" onload="window.scroll(0, this.offsetTop)"></iframe>
 
