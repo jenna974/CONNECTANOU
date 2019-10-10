@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Proza+Libre&display=swap');
+
+body {
+    padding-top: 5rem;
+    background-color: #fcfcfc;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Proza Libre', sans-serif;
+    margin-bottom: 1.4rem;
+}
+
+p {
+    font-size: 1.3rem;
+}
+
+.navbar {
+    padding: 0.6rem 1rem;
+    text-transform: uppercase;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color:#4669B0;
+}
+
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
+    color: #4669B0;
+}
+
+.logo {
+    width: 110px;
+}
+
+.bg-light {
+    border-bottom: 8px solid #4669B0;
+    box-shadow: 0px 0px 10px rgb(26, 64, 139);
+}
+
+.register {
+    background-color: #F9C232;
+    border-radius: 1.2rem;
+}
+.register a {
+    color: #ffffff;
+    padding: 1.3rem;
+}
+
+main {
+    background-color: #4669B0;
+    padding: 2rem 0;
+    color: #ffffff;
+}
+
+main img {
+    width: 300px;
+}
+
+section {
+    padding: 2.5rem 0;
+}
+
+section.grey {
+    background-color: #c0cddd;
+}
+
+#team img {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    box-shadow: 5px 5px 8px #d2d7dd;
+    border: 5px solid #ffffff;
+    margin-bottom: 1rem;
+}
+#team p {
+    text-align: center;
+}
+p.name {
+    font-size: 1.6rem;
+    margin-bottom: 0.1rem;
+}
+p.title {
+    margin-bottom: 0.1rem;
+}
+p.desc {
+    font-size: 1.1rem;
+}
+
+footer {
+    padding: 2rem;
+    background-color: #3D235F;
+    color: #ffffff;
+}
+footer a {
+    color: #ffffff;
+}
+footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

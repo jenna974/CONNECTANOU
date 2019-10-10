@@ -4,7 +4,7 @@
     private $host    = 'localhost';   // nom de l'host
     private $name    = 'connectanou';     // nom de la base de donnée
     private $user    = 'root';        // utilisateur
-    private $pass    = '';        // mot de passe
+    private $pass    = 'root';        // mot de passe
     //private $pass    = '';          // Ne rien mettre si on est sous windows
     private $connexion;
                     

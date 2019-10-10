@@ -4,7 +4,7 @@
 
 <?php include 'head.php'; ?>
 <title>Connectanou - Contributeurs</title>
-	<meta description="Connectanou la plateforme de mise en relation des jeunes réunionnais et des porteurs de projet. Faites confiance aux jeunes - Réaliser vos projets moins cher, pas cher">
+	<meta description="Connectanou, plateforme de mise en relation des jeunes réunionnais avec des porteurs de projet. confiance, valorisation, motivation des jeunes - notre équipe, realisateurs du siteweb">
 </head>
 <body>
 
