@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 16 sep. 2019 à 05:40
+-- Généré le :  mer. 23 oct. 2019 à 11:08
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.14
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
   `tel_admin` int(10) NOT NULL,
   `email_admin` varchar(200) NOT NULL,
   PRIMARY KEY (`id_admin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `code_postal` (
   `cp` int(5) NOT NULL,
   `ville` varchar(100) NOT NULL,
   PRIMARY KEY (`id_cp`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `code_postal`
@@ -85,6 +85,24 @@ INSERT INTO `code_postal` (`id_cp`, `cp`, `ville`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `commentable_id` int(11) NOT NULL,
+  `commentable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `contact`
 --
 
@@ -96,23 +114,37 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `message` text NOT NULL,
   PRIMARY KEY (`id_real`,`id_etat_projet`),
   KEY `id_etat_projet` (`id_etat_projet`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `diplome`
+-- Structure de la table `diplomes`
 --
 
-DROP TABLE IF EXISTS `diplome`;
-CREATE TABLE IF NOT EXISTS `diplome` (
-  `id_real` int(11) NOT NULL,
-  `id_niveau_diplome` int(11) NOT NULL,
-  `annee_obtention` date NOT NULL,
-  `desc_diplome` text NOT NULL,
-  PRIMARY KEY (`id_real`,`id_niveau_diplome`),
-  KEY `diplome_ibfk_2` (`id_niveau_diplome`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `diplomes`;
+CREATE TABLE IF NOT EXISTS `diplomes` (
+  `id_real` int(11) NOT NULL AUTO_INCREMENT,
+  `id_niveau_diplome` int(11) DEFAULT NULL,
+  `annee_obtention` date DEFAULT NULL,
+  `desc_diplome` text,
+  PRIMARY KEY (`id_real`),
+  KEY `diplome_ibfk_2` (`id_niveau_diplome`),
+  KEY `id_niveau_diplome` (`id_niveau_diplome`)
+) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `diplomes`
+--
+
+INSERT INTO `diplomes` (`id_real`, `id_niveau_diplome`, `annee_obtention`, `desc_diplome`) VALUES
+(97, NULL, NULL, NULL),
+(96, NULL, NULL, NULL),
+(95, NULL, NULL, NULL),
+(94, NULL, NULL, NULL),
+(93, NULL, NULL, NULL),
+(91, NULL, NULL, NULL),
+(92, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -126,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `domaine` (
   `label_domaine` varchar(100) NOT NULL,
   `desc_domaine` text,
   PRIMARY KEY (`id_domaine`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `domaine`
@@ -168,15 +200,20 @@ CREATE TABLE IF NOT EXISTS `ecole` (
   `id_cp` int(11) NOT NULL,
   PRIMARY KEY (`id_ecole`),
   KEY `id_cp` (`id_cp`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `ecole`
 --
 
 INSERT INTO `ecole` (`id_ecole`, `nom_ecole`, `adresse_ecole`, `tel_ecole`, `email_ecole`, `site_internet_ecole`, `id_cp`) VALUES
-(1, 'SUPINFO', NULL, NULL, NULL, NULL, 1),
-(2, 'HESIP', NULL, NULL, NULL, NULL, 1);
+(1, 'Supinfo', NULL, NULL, NULL, NULL, 1),
+(2, 'HESIP', NULL, NULL, NULL, NULL, 1),
+(3, 'ESRN', NULL, NULL, NULL, NULL, 18),
+(4, 'ILOI', NULL, NULL, NULL, NULL, 7),
+(5, 'AFPAR', NULL, NULL, NULL, NULL, 1),
+(6, 'Université de la Réunion', NULL, NULL, NULL, NULL, 1),
+(7, 'Autre', NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -191,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `etat_projet` (
   `id_real` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_etat_projet`),
   KEY `IdReal` (`id_real`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etat_projet`
@@ -209,24 +246,37 @@ INSERT INTO `etat_projet` (`id_etat_projet`, `label_etat`, `id_real`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `formation`
+-- Structure de la table `formations`
 --
 
-DROP TABLE IF EXISTS `formation`;
-CREATE TABLE IF NOT EXISTS `formation` (
+DROP TABLE IF EXISTS `formations`;
+CREATE TABLE IF NOT EXISTS `formations` (
   `id_formation` int(11) NOT NULL AUTO_INCREMENT,
-  `titre_formation` varchar(200) NOT NULL,
-  `date_debut_formation` date NOT NULL,
-  `date_fin_formation` date NOT NULL,
-  `specialisation_formation` varchar(200) NOT NULL,
-  `id_domaine` int(11) NOT NULL,
-  `id_niveau_diplome` int(11) NOT NULL,
-  `id_ecole` int(11) NOT NULL,
+  `titre_formation` varchar(200) DEFAULT NULL,
+  `date_debut_formation` date DEFAULT NULL,
+  `date_fin_formation` date DEFAULT NULL,
+  `specialisation_formation` varchar(200) DEFAULT NULL,
+  `id_domaine` int(11) DEFAULT NULL,
+  `id_niveau_diplome` int(11) DEFAULT NULL,
+  `id_ecole` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_formation`),
   KEY `IdDomaine` (`id_domaine`),
   KEY `IdNiveau_diplome` (`id_niveau_diplome`),
   KEY `IdEcole` (`id_ecole`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `formations`
+--
+
+INSERT INTO `formations` (`id_formation`, `titre_formation`, `date_debut_formation`, `date_fin_formation`, `specialisation_formation`, `id_domaine`, `id_niveau_diplome`, `id_ecole`) VALUES
+(114, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(113, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(111, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(112, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(109, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(110, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(108, 'lol_ mdrrrrrrrrrrrrrrrrr', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -243,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `form_contact` (
   `tel_contact` int(11) NOT NULL,
   `message_contact` text NOT NULL,
   PRIMARY KEY (`id_contact`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -258,26 +308,75 @@ CREATE TABLE IF NOT EXISTS `histo_etat_projet` (
   `date_etat_projet` datetime NOT NULL,
   PRIMARY KEY (`id_projet`,`id_etat_projet`),
   KEY `id_etat_projet` (`id_etat_projet`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `niveau_diplome`
+-- Structure de la table `migrations`
 --
 
-DROP TABLE IF EXISTS `niveau_diplome`;
-CREATE TABLE IF NOT EXISTS `niveau_diplome` (
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2019_10_02_110652_create_administrateur_table', 0),
+(2, '2019_10_02_110652_create_code_postal_table', 0),
+(3, '2019_10_02_110652_create_contact_table', 0),
+(4, '2019_10_02_110652_create_diplome_table', 0),
+(5, '2019_10_02_110652_create_domaine_table', 0),
+(6, '2019_10_02_110652_create_ecole_table', 0),
+(7, '2019_10_02_110652_create_etat_projet_table', 0),
+(8, '2019_10_02_110652_create_form_contact_table', 0),
+(9, '2019_10_02_110652_create_formation_table', 0),
+(10, '2019_10_02_110652_create_histo_etat_projet_table', 0),
+(11, '2019_10_02_110652_create_niveau_diplome_table', 0),
+(12, '2019_10_02_110652_create_organisation_table', 0),
+(13, '2019_10_02_110652_create_porteur_table', 0),
+(14, '2019_10_02_110652_create_projet_table', 0),
+(15, '2019_10_02_110652_create_realisateur_table', 0),
+(16, '2019_10_02_110652_create_realisation_table', 0),
+(17, '2019_10_02_110652_create_statut_realisateur_table', 0),
+(18, '2019_10_02_110652_create_type_organisation_table', 0),
+(19, '2019_10_02_110652_create_type_projet_table', 0),
+(20, '2019_10_02_110652_create_validation_real_table', 0),
+(21, '2019_10_09_164823_create_password_resets', 1),
+(22, '2014_10_12_000000_create_users_table', 2),
+(23, '2014_10_12_100000_create_password_resets_table', 2),
+(24, '2019_10_02_092658_create_clients_table', 3),
+(25, '2019_10_02_120254_create_entreprises_table', 3),
+(26, '2019_10_04_073444_add_image_to_clients', 3),
+(27, '2019_10_07_072446_create_topics_table', 3),
+(28, '2019_10_08_113639_create_comments_table', 3),
+(29, '2019_10_18_093511_create_last_ids_table', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table ` niveau_diplome`
+--
+
+DROP TABLE IF EXISTS ` niveau_diplome`;
+CREATE TABLE IF NOT EXISTS ` niveau_diplome` (
   `id_niveau_diplome` int(11) NOT NULL AUTO_INCREMENT,
   `label_niveau_diplome` varchar(11) NOT NULL,
   PRIMARY KEY (`id_niveau_diplome`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `niveau_diplome`
+-- Déchargement des données de la table ` niveau_diplome`
 --
 
-INSERT INTO `niveau_diplome` (`id_niveau_diplome`, `label_niveau_diplome`) VALUES
+INSERT INTO ` niveau_diplome` (`id_niveau_diplome`, `label_niveau_diplome`) VALUES
 (1, 'BAC'),
 (2, 'BAC+1'),
 (3, 'BAC+2'),
@@ -292,51 +391,84 @@ INSERT INTO `niveau_diplome` (`id_niveau_diplome`, `label_niveau_diplome`) VALUE
 -- --------------------------------------------------------
 
 --
--- Structure de la table `organisation`
+-- Structure de la table `organisations`
 --
 
-DROP TABLE IF EXISTS `organisation`;
-CREATE TABLE IF NOT EXISTS `organisation` (
+DROP TABLE IF EXISTS `organisations`;
+CREATE TABLE IF NOT EXISTS `organisations` (
   `id_org` int(11) NOT NULL AUTO_INCREMENT,
-  `SIRET` int(11) NOT NULL,
-  `raison_sociale` varchar(11) NOT NULL,
+  `SIRET` bigint(11) DEFAULT NULL,
+  `raison_sociale` varchar(50) DEFAULT NULL,
   `sigle_org` text,
   `logo_URL` text,
-  `activite_org` text NOT NULL,
-  `tel_orga` int(11) NOT NULL,
-  `nb_salaries` int(11) NOT NULL,
-  `site_internet_org` text NOT NULL,
-  `adresse_org` text NOT NULL,
-  `id_cp` int(11) NOT NULL,
-  `id_type_org` int(11) NOT NULL,
-  `id_porteur` int(11) NOT NULL,
+  `activite_org` text,
+  `tel_orga` int(11) DEFAULT NULL,
+  `nb_salaries` int(11) DEFAULT NULL,
+  `site_internet_org` text,
+  `adresse_org` text,
+  `id_cp` int(11) DEFAULT NULL,
+  `id_type_org` int(11) DEFAULT NULL,
+  `id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_org`),
   KEY `id_cp` (`id_cp`),
   KEY `idtype_orga` (`id_type_org`),
-  KEY `IdPorteur` (`id_porteur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `IdPorteur` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `organisations`
+--
+
+INSERT INTO `organisations` (`id_org`, `SIRET`, `raison_sociale`, `sigle_org`, `logo_URL`, `activite_org`, `tel_orga`, `nb_salaries`, `site_internet_org`, `adresse_org`, `id_cp`, `id_type_org`, `id`) VALUES
+(10, 2365128942356, 'xxxxxxxxxxxx', 'xxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxx', 102030405, 5, 'xxxxxxxxxxxxxxxxxx', 'xxxxxxxxxxxxxx', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `porteur`
+-- Structure de la table `password_resets`
 --
 
-DROP TABLE IF EXISTS `porteur`;
-CREATE TABLE IF NOT EXISTS `porteur` (
-  `id_porteur` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_porteur` varchar(30) NOT NULL,
-  `prenom_porteur` varchar(30) NOT NULL,
-  `email_porteur` varchar(30) NOT NULL,
-  `tel_porteur` int(11) NOT NULL,
-  `date_creation_compte` datetime NOT NULL,
-  `poste_porteur` int(11) DEFAULT NULL,
-  `id_org` int(11) NOT NULL,
-  `id_cp` int(11) NOT NULL,
-  PRIMARY KEY (`id_porteur`),
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `porteurs`
+--
+
+DROP TABLE IF EXISTS `porteurs`;
+CREATE TABLE IF NOT EXISTS `porteurs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `prenom_porteur` varchar(50) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `login_porteur` varchar(50) DEFAULT NULL,
+  `password` varchar(100) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `tel_porteur` int(11) DEFAULT NULL,
+  `poste_porteur` varchar(50) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `id_org` int(11) DEFAULT NULL,
+  `id_cp` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `Id_org` (`id_org`),
   KEY `id_cp` (`id_cp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `porteurs`
+--
+
+INSERT INTO `porteurs` (`id`, `name`, `prenom_porteur`, `email`, `email_verified_at`, `login_porteur`, `password`, `remember_token`, `tel_porteur`, `poste_porteur`, `updated_at`, `created_at`, `id_org`, `id_cp`) VALUES
+(16, 'xxxxxxxxxxxx', 'xxxxxxxxxx', 'yvanmagdeleine@gmail.com', NULL, 'gamerZ01', '$2y$10$bpLegLRQQnDkly2hwCn0tO2l0mtzPjCdra1kzjuhUb8N9.8P1sP2G', NULL, 102030405, 'xxxxxxxxx', '2019-10-16 03:25:21', '2019-10-16 03:25:21', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -351,7 +483,7 @@ CREATE TABLE IF NOT EXISTS `projet` (
   `desc_projet` varchar(500) NOT NULL,
   `date_butoir_projet` date NOT NULL,
   `date_debut` date NOT NULL,
-  `URL_PJ` varchar(500) NOT NULL,
+  `URL_PJ` text NOT NULL,
   `Budget_min_projet` int(11) NOT NULL,
   `budget_max_projet` int(11) NOT NULL,
   `nb_realisateurs` int(11) NOT NULL,
@@ -361,46 +493,50 @@ CREATE TABLE IF NOT EXISTS `projet` (
   PRIMARY KEY (`id_projet`),
   KEY `IdPorteur` (`id_porteur`),
   KEY `id_type_projet` (`id_type_projet`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `realisateur`
+-- Structure de la table `realisateurs`
 --
 
-DROP TABLE IF EXISTS `realisateur`;
-CREATE TABLE IF NOT EXISTS `realisateur` (
-  `id_real` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_real` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `realisateurs`;
+CREATE TABLE IF NOT EXISTS `realisateurs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
   `prenom_real` varchar(20) DEFAULT NULL,
-  `email_real` varchar(200) DEFAULT NULL,
-  `mdp_real` varchar(100) DEFAULT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 DEFAULT NULL,
   `login_real` varchar(200) DEFAULT NULL,
-  `tel_real` int(11) NOT NULL,
+  `tel_real` int(11) DEFAULT NULL,
   `datenais_real` date DEFAULT NULL,
-  `n_mdp` int(1) DEFAULT '0',
-  `cv_URL` varchar(500) DEFAULT NULL,
-  `linkedin_URL` varchar(500) DEFAULT NULL,
-  `photoprofil_URL` varchar(500) DEFAULT NULL,
-  `date_creation_compte` datetime DEFAULT NULL,
+  `cv_URL` text,
+  `linkedin_URL` text,
+  `photoprofil_URL` text,
+  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL,
   `id_cp` int(11) DEFAULT NULL,
   `id_ecole` int(11) DEFAULT NULL,
   `id_statut_real` int(11) DEFAULT NULL,
   `id_formation` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_real`),
+  PRIMARY KEY (`id`),
   KEY `id_cp` (`id_cp`),
   KEY `IdEcole` (`id_ecole`),
   KEY `id_statut_real` (`id_statut_real`),
   KEY `IdFormation` (`id_formation`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=226 DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `realisateur`
+-- Déchargement des données de la table `realisateurs`
 --
 
-INSERT INTO `realisateur` (`id_real`, `nom_real`, `prenom_real`, `email_real`, `mdp_real`, `login_real`, `tel_real`, `datenais_real`, `n_mdp`, `cv_URL`, `linkedin_URL`, `photoprofil_URL`, `date_creation_compte`, `id_cp`, `id_ecole`, `id_statut_real`, `id_formation`) VALUES
-(1, 'MAGDELEINE', 'Yvan', 'yvanmagdeleine@gmail.com', '$2y$10$dHO98Uwj3M2TSrVtEsYw7u8Fi9eBl2pPA1/Q.SkKO5MdkgovFvhbW', NULL, 693319267, '1998-12-09', 0, NULL, '', NULL, '2019-09-13 06:35:54', NULL, NULL, NULL, NULL);
+INSERT INTO `realisateurs` (`id`, `name`, `prenom_real`, `email`, `email_verified_at`, `password`, `remember_token`, `login_real`, `tel_real`, `datenais_real`, `cv_URL`, `linkedin_URL`, `photoprofil_URL`, `updated_at`, `created_at`, `id_cp`, `id_ecole`, `id_statut_real`, `id_formation`) VALUES
+(223, '??', NULL, '??', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-10-18 13:00:48', '2019-10-18 13:00:48', NULL, NULL, NULL, NULL),
+(224, '?', NULL, '?', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-10-18 13:00:48', '2019-10-18 13:00:48', NULL, NULL, NULL, NULL),
+(225, '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-10-18 13:00:48', '2019-10-18 13:00:48', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -415,7 +551,7 @@ CREATE TABLE IF NOT EXISTS `realisation` (
   `date_real` datetime NOT NULL,
   KEY `id_projet` (`id_projet`),
   KEY `id_real` (`id_real`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -428,7 +564,7 @@ CREATE TABLE IF NOT EXISTS `statut_realisateur` (
   `id_statut_real` int(11) NOT NULL AUTO_INCREMENT,
   `label_statut_real` varchar(30) NOT NULL,
   PRIMARY KEY (`id_statut_real`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `statut_realisateur`
@@ -445,6 +581,24 @@ INSERT INTO `statut_realisateur` (`id_statut_real`, `label_statut_real`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `topics`
+--
+
+DROP TABLE IF EXISTS `topics`;
+CREATE TABLE IF NOT EXISTS `topics` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `topics_user_id_foreign` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `type_organisation`
 --
 
@@ -453,7 +607,7 @@ CREATE TABLE IF NOT EXISTS `type_organisation` (
   `id_type_org` int(11) NOT NULL AUTO_INCREMENT,
   `label_org` varchar(30) NOT NULL,
   PRIMARY KEY (`id_type_org`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `type_organisation`
@@ -477,7 +631,7 @@ CREATE TABLE IF NOT EXISTS `type_projet` (
   `id_type_projet` int(11) NOT NULL AUTO_INCREMENT,
   `label_type_projet` varchar(50) NOT NULL,
   PRIMARY KEY (`id_type_projet`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `type_projet`
@@ -494,6 +648,26 @@ INSERT INTO `type_projet` (`id_type_projet`, `label_type_projet`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `validation_real`
 --
 
@@ -504,97 +678,7 @@ CREATE TABLE IF NOT EXISTS `validation_real` (
   `date_validation_real` datetime NOT NULL,
   PRIMARY KEY (`id_admin`,`id_real`),
   KEY `id_real` (`id_real`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `contact`
---
-ALTER TABLE `contact`
-  ADD CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`id_etat_projet`) REFERENCES `etat_projet` (`id_etat_projet`),
-  ADD CONSTRAINT `contact_ibfk_2` FOREIGN KEY (`id_real`) REFERENCES `realisateur` (`id_real`);
-
---
--- Contraintes pour la table `diplome`
---
-ALTER TABLE `diplome`
-  ADD CONSTRAINT `diplome_ibfk_1` FOREIGN KEY (`id_real`) REFERENCES `realisateur` (`id_real`),
-  ADD CONSTRAINT `diplome_ibfk_2` FOREIGN KEY (`id_niveau_diplome`) REFERENCES `niveau_diplome` (`id_niveau_diplome`);
-
---
--- Contraintes pour la table `ecole`
---
-ALTER TABLE `ecole`
-  ADD CONSTRAINT `ecole_ibfk_3` FOREIGN KEY (`id_cp`) REFERENCES `code_postal` (`id_cp`);
-
---
--- Contraintes pour la table `etat_projet`
---
-ALTER TABLE `etat_projet`
-  ADD CONSTRAINT `etat_projet_ibfk_1` FOREIGN KEY (`id_real`) REFERENCES `realisateur` (`id_real`);
-
---
--- Contraintes pour la table `formation`
---
-ALTER TABLE `formation`
-  ADD CONSTRAINT `formation_ibfk_1` FOREIGN KEY (`id_domaine`) REFERENCES `formation` (`id_formation`),
-  ADD CONSTRAINT `formation_ibfk_2` FOREIGN KEY (`id_niveau_diplome`) REFERENCES `niveau_diplome` (`id_niveau_diplome`),
-  ADD CONSTRAINT `formation_ibfk_3` FOREIGN KEY (`id_ecole`) REFERENCES `ecole` (`id_ecole`);
-
---
--- Contraintes pour la table `histo_etat_projet`
---
-ALTER TABLE `histo_etat_projet`
-  ADD CONSTRAINT `histo_etat_projet_ibfk_1` FOREIGN KEY (`id_etat_projet`) REFERENCES `etat_projet` (`id_etat_projet`),
-  ADD CONSTRAINT `histo_etat_projet_ibfk_2` FOREIGN KEY (`id_projet`) REFERENCES `projet` (`id_projet`);
-
---
--- Contraintes pour la table `organisation`
---
-ALTER TABLE `organisation`
-  ADD CONSTRAINT `organisation_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `code_postal` (`id_cp`),
-  ADD CONSTRAINT `organisation_ibfk_2` FOREIGN KEY (`id_type_org`) REFERENCES `type_organisation` (`id_type_org`),
-  ADD CONSTRAINT `organisation_ibfk_3` FOREIGN KEY (`id_porteur`) REFERENCES `porteur` (`id_porteur`);
-
---
--- Contraintes pour la table `porteur`
---
-ALTER TABLE `porteur`
-  ADD CONSTRAINT `porteur_ibfk_1` FOREIGN KEY (`id_org`) REFERENCES `organisation` (`id_org`),
-  ADD CONSTRAINT `porteur_ibfk_2` FOREIGN KEY (`id_cp`) REFERENCES `code_postal` (`id_cp`);
-
---
--- Contraintes pour la table `projet`
---
-ALTER TABLE `projet`
-  ADD CONSTRAINT `projet_ibfk_1` FOREIGN KEY (`id_porteur`) REFERENCES `porteur` (`id_porteur`),
-  ADD CONSTRAINT `projet_ibfk_2` FOREIGN KEY (`id_type_projet`) REFERENCES `type_projet` (`id_type_projet`);
-
---
--- Contraintes pour la table `realisateur`
---
-ALTER TABLE `realisateur`
-  ADD CONSTRAINT `realisateur_ibfk_1` FOREIGN KEY (`id_cp`) REFERENCES `code_postal` (`id_cp`),
-  ADD CONSTRAINT `realisateur_ibfk_2` FOREIGN KEY (`id_ecole`) REFERENCES `ecole` (`id_ecole`),
-  ADD CONSTRAINT `realisateur_ibfk_3` FOREIGN KEY (`id_statut_real`) REFERENCES `statut_realisateur` (`id_statut_real`),
-  ADD CONSTRAINT `realisateur_ibfk_4` FOREIGN KEY (`id_formation`) REFERENCES `formation` (`id_formation`);
-
---
--- Contraintes pour la table `realisation`
---
-ALTER TABLE `realisation`
-  ADD CONSTRAINT `realisation_ibfk_1` FOREIGN KEY (`id_projet`) REFERENCES `projet` (`id_projet`),
-  ADD CONSTRAINT `realisation_ibfk_2` FOREIGN KEY (`id_real`) REFERENCES `realisateur` (`id_real`);
-
---
--- Contraintes pour la table `validation_real`
---
-ALTER TABLE `validation_real`
-  ADD CONSTRAINT `validation_real_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `administrateur` (`id_admin`),
-  ADD CONSTRAINT `validation_real_ibfk_2` FOREIGN KEY (`id_real`) REFERENCES `realisateur` (`id_real`);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
